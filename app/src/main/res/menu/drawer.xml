@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:checked="true"
+            android:title="Opcija 1" />
+        <item
+            android:title="Opcija 2" />
+        <item
+            android:title="Opcija 3" />
+    </group>
+
+    <item android:title="Podmeni">
+        <menu>
+            <item
+                android:title="Opcija 11" />
+            <item
+                android:title="Opcija 12" />
+        </menu>
+    </item>
+
+</menu>
