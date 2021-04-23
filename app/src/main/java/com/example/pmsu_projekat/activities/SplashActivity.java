@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.example.pmsu_projekat.MainActivity;
 import com.example.pmsu_projekat.R;
@@ -20,7 +21,7 @@ public class SplashActivity extends Activity {
 
             @Override
             public void run() {
-                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
             }
