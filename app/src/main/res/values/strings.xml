@@ -3,4 +3,8 @@
     <string name="korisnicko_ime">Korisnicko ime</string>
     <string name="lozinka">Lozinka</string>
     <string name="prijavi_se">Prijavi se</string>
+    <string-array name="spinnerRoles">
+        <item>Kupac</item>
+        <item>Prodavac</item>
+    </string-array>
 </resources>
