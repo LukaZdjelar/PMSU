@@ -7,4 +7,9 @@
         <item>Kupac</item>
         <item>Prodavac</item>
     </string-array>
+    <string-array name="restaurants">
+        <item>Kod Zokija</item>
+        <item>Fruskogorac</item>
+        <item>Piazza</item>
+    </string-array>
 </resources>

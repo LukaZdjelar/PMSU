@@ -10,11 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PMSUProjekat">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
@@ -23,11 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity">
-
-        </activity>
+        <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.RegisterSellerActivity" />
+        <activity android:name=".activities.RestaurantsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
