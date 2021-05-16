@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    tools:context=".activities.RestaurantsActivity"
+    android:id="@+id/drawer_layout"
+    android:theme="@style/Theme.PMSUProjekat">
 
+        <ImageView
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/restaurant_image"
+            android:layout_weight="0.7"
+            android:src="@drawable/ic_restaurant"
+            android:padding="10dp"/>
 
-    <ImageView
-        android:gravity="center"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/restaurant_image"
-        android:layout_weight="0.65"
-        android:src="@drawable/ic_restaurant"
-        android:padding="10dp"/>
-
-    <TextView
-        android:gravity="start"
-        android:text="Restoran"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:padding="15dp"
-        android:id="@+id/restaurant_name"
-        android:layout_weight="0.35"/>
+        <TextView
+            android:gravity="start"
+            android:text="Restoran"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="15dp"
+            android:id="@+id/restaurant_name"
+            android:layout_weight="0.3"/>
 
 </LinearLayout>
