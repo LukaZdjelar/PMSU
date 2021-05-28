@@ -1,5 +1,6 @@
 package com.ftn.dostavaOSA.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,15 @@ public class ProdavacServiceImpl implements ProdavacService{
 	public void delete(Prodavac prodavac) {
 		prodavacRepository.delete(prodavac);
 		
+	}
+
+	@Override
+	public ArrayList<String> findAllProdavnice() {
+		ArrayList<String> prodavnice = new ArrayList<>();
+		for (Prodavac prodavac : findAll()) {
+			prodavnice.add(prodavac.getNaziv());
+		}
+		return prodavnice;
 	}
 
 }

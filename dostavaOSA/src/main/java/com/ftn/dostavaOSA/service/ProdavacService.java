@@ -1,5 +1,6 @@
 package com.ftn.dostavaOSA.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ftn.dostavaOSA.model.Prodavac;
@@ -10,4 +11,5 @@ public interface ProdavacService {
 	List<Prodavac> findAll();
 	Prodavac save(Prodavac prodavac);
 	void delete(Prodavac prodavac);
+	ArrayList<String> findAllProdavnice();
 }

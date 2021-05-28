@@ -40,6 +40,48 @@ public class Prodavac extends Korisnik{
 		this.naziv = naziv;
 		this.banovan = banovan;
 	}
+	
+	
+
+	public LocalDate getPoslujeOd() {
+		return poslujeOd;
+	}
+
+	public void setPoslujeOd(LocalDate poslujeOd) {
+		this.poslujeOd = poslujeOd;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAdresa() {
+		return adresa;
+	}
+
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+
+	public String getNaziv() {
+		return naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	public boolean isBanovan() {
+		return banovan;
+	}
+
+	public void setBanovan(boolean banovan) {
+		this.banovan = banovan;
+	}
 
 	@Override
 	public String toString() {

@@ -1,5 +1,6 @@
 package com.ftn.dostavaOSA.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.SSLEngineResult.Status;
@@ -28,6 +29,13 @@ public class ProdavacController {
 		List<Prodavac> prodavci = prodavacService.findAll();
 		
 		return new ResponseEntity<>(prodavci, HttpStatus.OK);
+	}
+	
+	@GetMapping("/prodavnice")
+	public ResponseEntity<ArrayList<String>> getAllProdavnica(){
+		
+		ArrayList<String> prodavnice = prodavacService.findAllProdavnice();
+		return new ResponseEntity<>(prodavnice, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}")
