@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ArticlesActivity"
+    android:id="@+id/layout_articles"
+    android:theme="@style/Theme.PMSUProjekat"
+    android:orientation="vertical">
+
+    <ImageView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/article_image"
+        android:src="@drawable/ic_restaurant"
+        android:padding="10dp"
+        android:background="@color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/article_name"
+            android:layout_weight="0.5"
+            android:padding="10dp"
+            android:textSize="30sp"
+            android:text="Artikal"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/article_price"
+            android:textAlignment="textEnd"
+            android:padding="10dp"
+            android:layout_weight="0.5"
+            android:textSize="40sp"
+            android:text="390"/>
+
+    </LinearLayout>
+
+</LinearLayout>

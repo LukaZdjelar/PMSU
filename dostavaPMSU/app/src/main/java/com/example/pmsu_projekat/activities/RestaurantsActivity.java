@@ -1,8 +1,11 @@
 package com.example.pmsu_projekat.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -60,6 +63,14 @@ public class RestaurantsActivity extends AppCompatActivity {
                 mDrawerLayout.closeDrawers();
                 Toast.makeText(RestaurantsActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
                 return true;
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(RestaurantsActivity.this, ArticlesActivity.class);
+                startActivity(intent);
             }
         });
 
