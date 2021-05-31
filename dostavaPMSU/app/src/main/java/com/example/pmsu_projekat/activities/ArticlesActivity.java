@@ -1,6 +1,7 @@
 package com.example.pmsu_projekat.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,26 +17,39 @@ import com.example.pmsu_projekat.R;
 import com.example.pmsu_projekat.adapters.ArticleListAdapter;
 import com.example.pmsu_projekat.adapters.RestaurantListAdapter;
 import com.example.pmsu_projekat.model.Article;
+import com.example.pmsu_projekat.model.Seller;
+import com.example.pmsu_projekat.service.ArticleServiceAPI;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ArticlesActivity extends AppCompatActivity {
     static final String TAG = ArticlesActivity.class.getSimpleName();
     DrawerLayout mDrawerLayout;
     static Retrofit retrofit = null;
     static final String BASE_URL = "http://192.168.0.13:8080/";
-    ArrayList<Article> articles = new ArrayList<Article>();
+    List<Article> articles = new ArrayList<>();
+    List<Article> articlesTest = new ArrayList<>();
     private ListView mListView;
+    private long seller_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_articles);
+
+        Bundle b = getIntent().getExtras();
+        if(b != null)
+            seller_id = b.getLong("id");
 
         mListView = (ListView) findViewById(R.id.listview_articles);
 
@@ -57,23 +71,53 @@ public class ArticlesActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
 
-        Article a1 = new Article("Dupla punjena", 350.0);
-        Article a2 = new Article("Index", 250.0);
-        Article a3 = new Article("Krilca", 320.0);
+    @Override
+    public void onResume(){
+        super.onResume();
+        getArticles();
+    }
 
-        articles.add(a1);
-        articles.add(a2);
-        articles.add(a3);
+    private void getArticles(){
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
 
-        mListView.setAdapter(new ArticleListAdapter(this, R.layout.layout_article, articles));
+        ArticleServiceAPI articleServiceAPI = retrofit.create(ArticleServiceAPI.class);
+        Call<List<Article>> call = articleServiceAPI.getAll(seller_id);
+
+        call.enqueue(new Callback<List<Article>>() {
+            @Override
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+
+                //Article a1 = new Article(1L,"Dupla punjena", 350.0, "Opis 1",1L);
+                //Article a2 = new Article(2L,"Index", 250.0, "Opis 2",1L);
+                //Article a3 = new Article(3L,"Krilca", 320.0, "Opis 3", 2L);
+
+                //articlesTest.add(a1);
+                //articlesTest.add(a2);
+                //articlesTest.add(a3);
+
+                Log.d("DataCheck",new Gson().toJson(response.body()));
+
+                articles = response.body();
+
+                mListView.setAdapter(new ArticleListAdapter(getApplicationContext(), R.layout.layout_article, (ArrayList<Article>) articles));
+            }
+
+            @Override
+            public void onFailure(Call<List<Article>> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         switch (id) {

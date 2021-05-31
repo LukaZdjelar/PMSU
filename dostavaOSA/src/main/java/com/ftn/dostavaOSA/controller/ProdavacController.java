@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ftn.dostavaOSA.dto.ProdavacDTO;
 import com.ftn.dostavaOSA.model.Prodavac;
 import com.ftn.dostavaOSA.service.ProdavacService;
 
@@ -24,11 +25,16 @@ public class ProdavacController {
 	ProdavacService prodavacService;
 	
 	@GetMapping
-	public ResponseEntity<List<Prodavac>> getAll(){
+	public ResponseEntity<List<ProdavacDTO>> getAll(){
 		
 		List<Prodavac> prodavci = prodavacService.findAll();
+		List<ProdavacDTO> dtoList = new ArrayList<ProdavacDTO>();
 		
-		return new ResponseEntity<>(prodavci, HttpStatus.OK);
+		for (Prodavac prodavac : prodavci) {
+			dtoList.add(new ProdavacDTO(prodavac));
+		}
+		
+		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 	
 	@GetMapping("/prodavnice")

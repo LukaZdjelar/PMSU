@@ -22,14 +22,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/article_name"
-            android:layout_weight="0.5"
+            android:layout_weight="0.35"
             android:padding="10dp"
             android:textSize="30sp"
             android:text="Artikal"/>
@@ -37,10 +37,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/article_description"
+            android:layout_weight="0.35"
+            android:padding="10dp"
+            android:textSize="30sp"
+            android:text="Opis artikla"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/article_price"
             android:textAlignment="textEnd"
             android:padding="10dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
             android:textSize="40sp"
             android:text="390"/>
 

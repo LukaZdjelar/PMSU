@@ -1,27 +1,57 @@
 package com.example.pmsu_projekat.model;
 
 public class Article {
-    private String name;
-    private Double price;
+    private Long id;
+    private String naziv;
+    private Double cena;
+    private String opis;
+    private Long prodavacId;
 
-    public Article(String name, Double price) {
-        this.name = name;
-        this.price = price;
+    public Article(Long id, String naziv, Double cena, String opis, Long prodavacId) {
+        this.id = id;
+        this.naziv = naziv;
+        this.cena = cena;
+        this.opis = opis;
+        this.prodavacId = prodavacId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Long getId() {
+        return id;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNaziv() {
+        return naziv;
     }
 
-    public Double getPrice() {
-        return price;
+    public void setNaziv(String naziv) {
+        this.naziv = naziv;
+    }
+
+    public Double getCena() {
+        return cena;
+    }
+
+    public void setCena(Double cena) {
+        this.cena = cena;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public Long getProdavacId() {
+        return prodavacId;
+    }
+
+    public void setProdavacId(Long prodavacId) {
+        this.prodavacId = prodavacId;
     }
 }

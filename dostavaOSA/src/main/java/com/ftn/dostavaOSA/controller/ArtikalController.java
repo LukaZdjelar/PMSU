@@ -1,5 +1,6 @@
 package com.ftn.dostavaOSA.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ftn.dostavaOSA.dto.ArtikalDTO;
 import com.ftn.dostavaOSA.model.Artikal;
 import com.ftn.dostavaOSA.service.ArtikalService;
 
@@ -24,11 +26,24 @@ public class ArtikalController {
 	ArtikalService artikalService;
 	
 	@GetMapping
-	public ResponseEntity<List<Artikal>> getAll(){
+	public ResponseEntity<List<ArtikalDTO>> getAll(Long id){
 		
-		List<Artikal> artikli = artikalService.findAll();
+		//List<Artikal> artikli = artikalService.findAll();
+		List<ArtikalDTO> dtoList = new ArrayList<>();
 		
-		return new ResponseEntity<>(artikli, HttpStatus.OK);
+		//for (Artikal artikal : artikli) {
+		//	dtoList.add(new ArtikalDTO(artikal));
+		//}
+		
+		for (Artikal artikal : artikalService.findAll()) {
+			if(artikal.getProdavac().getId() == id) {
+				dtoList.add(new ArtikalDTO(artikal));
+			}
+		}
+		
+		System.out.println(dtoList);
+		
+		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}")

@@ -11,15 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.pmsu_projekat.R;
+import com.example.pmsu_projekat.model.Seller;
 
 import java.util.ArrayList;
 
-public class RestaurantListAdapter extends ArrayAdapter<String> {
+public class RestaurantListAdapter extends ArrayAdapter<Seller> {
 
     private Context mContext;
     int mResource;
 
-    public RestaurantListAdapter(Context context, int resource, ArrayList<String> objects) {
+    public RestaurantListAdapter(Context context, int resource, ArrayList<Seller> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -28,7 +29,7 @@ public class RestaurantListAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String restaurant_name = getItem(position);
+        String restaurant_name = getItem(position).getNaziv();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

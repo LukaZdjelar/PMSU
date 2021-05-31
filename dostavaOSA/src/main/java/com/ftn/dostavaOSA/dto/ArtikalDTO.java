@@ -1,5 +1,7 @@
 package com.ftn.dostavaOSA.dto;
 
+import com.ftn.dostavaOSA.model.Artikal;
+
 public class ArtikalDTO {
 
 	private Long id;
@@ -12,13 +14,13 @@ public class ArtikalDTO {
 		
 	}
 
-	public ArtikalDTO(Long id, String naziv, String opis, Double cena, Long prodavacId) {
+	public ArtikalDTO(Artikal artikal) {
 		super();
-		this.id = id;
-		this.naziv = naziv;
-		this.opis = opis;
-		this.cena = cena;
-		this.prodavacId = prodavacId;
+		id = artikal.getId();
+		naziv = artikal.getNaziv();
+		opis = artikal.getOpis();
+		cena = artikal.getCena();
+		prodavacId = artikal.getProdavac().getId();
 	}
 
 	public Long getId() {
@@ -59,6 +61,12 @@ public class ArtikalDTO {
 
 	public void setProdavacId(Long prodavacId) {
 		this.prodavacId = prodavacId;
+	}
+
+	@Override
+	public String toString() {
+		return "ArtikalDTO [id=" + id + ", naziv=" + naziv + ", opis=" + opis + ", cena=" + cena + ", prodavacId="
+				+ prodavacId + "]";
 	}
 	
 	
