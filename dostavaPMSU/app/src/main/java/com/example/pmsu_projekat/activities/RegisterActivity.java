@@ -14,6 +14,8 @@ import com.example.pmsu_projekat.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    Spinner spinnerRole;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,10 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Button registerButton = (Button) findViewById(R.id.registerButton);
 
-        Spinner spinnerRole = (Spinner) findViewById(R.id.spinnerRole);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinnerRoles, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerRole.setAdapter(adapter);
+        spinner();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +38,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-
+    private void spinner(){
+        spinnerRole = (Spinner) findViewById(R.id.spinnerRole);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinnerRoles, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRole.setAdapter(adapter);
     }
 }

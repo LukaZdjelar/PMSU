@@ -46,20 +46,17 @@ public class ArtikalController {
 	
 	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Artikal> get(@PathVariable("id") Long id){
+	public ResponseEntity<ArtikalDTO> get(@PathVariable("id") Long id){
 		
 		Artikal artikal = artikalService.findArtikalById(id);
+		ArtikalDTO artikalDTO = new ArtikalDTO(artikal);
 		
-		return new ResponseEntity<>(artikal, HttpStatus.OK);
+		return new ResponseEntity<>(artikalDTO, HttpStatus.OK);
 	}
 	
 	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR')")
 	@PostMapping
 	public ResponseEntity<Artikal> create(@RequestBody ArtikalDTO artikalDTO){
-		
-		System.out.println("usao");
-		System.out.println(artikalDTO.toString());
-		
 		
 		Artikal artikal = new Artikal(null, artikalDTO.getNaziv(), artikalDTO.getOpis(), artikalDTO.getCena(), "abc", 
 									prodavacService.findProdavacById(artikalDTO.getProdavacId()));
@@ -72,10 +69,11 @@ public class ArtikalController {
 	
 	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR')")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Artikal> update(Artikal novi, @PathVariable("id") Long id){
+	public ResponseEntity<Artikal> update(@RequestBody ArtikalDTO novi, @PathVariable("id") Long id){
 		
 		Artikal artikal = artikalService.findArtikalById(id);
-		artikal = novi;
+		artikal = new Artikal(id, novi.getNaziv(), novi.getOpis(), novi.getCena(), artikal.getPutanjaSlike(), 
+				artikal.getProdavac());
 		
 		artikalService.save(artikal);
 		
@@ -83,8 +81,8 @@ public class ArtikalController {
 	}
 	
 	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR')")
-	@DeleteMapping()
-	public ResponseEntity<Artikal> delete(Long id){
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Artikal> delete(@PathVariable("id") Long id){
 		
 		System.out.println(id);
 		

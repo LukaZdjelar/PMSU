@@ -34,6 +34,7 @@
         <activity android:name=".activities.ArticlesActivity" />
         <activity android:name=".activities.CreateArticleActivity" />
         <activity android:name=".activities.ArticleActivity" />
+        <activity android:name=".activities.UpdateArticleActivity" />
     </application>
 
 </manifest>

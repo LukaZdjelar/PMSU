@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:background="@color/transparent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_article"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryVariant"
-        app:layout_scrollFlags="scroll|enterAlways"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_article"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimaryVariant"
+            app:layout_scrollFlags="scroll|enterAlways"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -61,7 +61,7 @@
             android:textSize="50sp"/>
 
         <Button
-            android:id="@+id/articleButton"
+            android:id="@+id/articleEditButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:textSize="25sp"
@@ -70,8 +70,17 @@
             android:backgroundTint="@color/primary"
             android:text="Izmeni" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/articleDeleteButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:backgroundTint="@color/primary"
+            android:text="Izbrisi" />
 
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view_article"
@@ -80,4 +89,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>

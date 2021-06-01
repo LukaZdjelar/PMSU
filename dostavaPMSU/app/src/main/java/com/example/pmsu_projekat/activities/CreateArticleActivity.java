@@ -69,11 +69,13 @@ public class CreateArticleActivity extends AppCompatActivity {
         call.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
-                Log.d("DataCheck",new Gson().toJson(article));
+
+                //Log.d("DataCheck",new Gson().toJson(article));
             }
 
             @Override
             public void onFailure(Call<Article> call, Throwable t) {
+
                 Log.e("Error", t.toString());
             }
         });

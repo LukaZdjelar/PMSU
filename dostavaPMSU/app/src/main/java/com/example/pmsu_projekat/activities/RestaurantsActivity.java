@@ -45,41 +45,8 @@ public class RestaurantsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurants);
 
-        mListView = (ListView) findViewById(R.id.listview_restaurants);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_restaurants);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_restaurants);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view_restaurants);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                if (menuItem.getTitle().equals("Kreiraj artikal")){
-                    //Toast.makeText(RestaurantsActivity.this, "Dobar", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(RestaurantsActivity.this, CreateArticleActivity.class);
-                    startActivity(intent);
-                }
-                mDrawerLayout.closeDrawers();
-                //Toast.makeText(RestaurantsActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(RestaurantsActivity.this, ArticlesActivity.class);
-                Bundle b = new Bundle();
-                b.putLong("id", sellers.get(position).getId());
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
+        listView();
+        toolbarAndDrawer();
     }
 
     @Override
@@ -113,6 +80,46 @@ public class RestaurantsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Seller>> call, Throwable t) {
                 Log.e(TAG, t.toString());
+            }
+        });
+    }
+
+    private void listView(){
+        mListView = (ListView) findViewById(R.id.listview_restaurants);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(RestaurantsActivity.this, ArticlesActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("id", sellers.get(position).getId());
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void toolbarAndDrawer(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_restaurants);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_restaurants);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view_restaurants);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                if (menuItem.getTitle().equals("Kreiraj artikal")){
+                    //Toast.makeText(RestaurantsActivity.this, "Dobar", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RestaurantsActivity.this, CreateArticleActivity.class);
+                    startActivity(intent);
+                }
+                mDrawerLayout.closeDrawers();
+                //Toast.makeText(RestaurantsActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                return true;
             }
         });
     }

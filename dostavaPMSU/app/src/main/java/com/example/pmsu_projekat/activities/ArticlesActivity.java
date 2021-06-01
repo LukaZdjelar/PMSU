@@ -54,36 +54,8 @@ public class ArticlesActivity extends AppCompatActivity {
         if(b != null)
             seller_id = b.getLong("id");
 
-        mListView = (ListView) findViewById(R.id.listview_articles);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_articles);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_articles);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view_articles);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                mDrawerLayout.closeDrawers();
-                Toast.makeText(ArticlesActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ArticlesActivity.this, ArticleActivity.class);
-                Bundle b = new Bundle();
-                b.putLong("id", articles.get(position).getId());
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
+        toolbarAndDrawer();
+        listView();
     }
 
     @Override
@@ -117,6 +89,41 @@ public class ArticlesActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Article>> call, Throwable t) {
                 Log.e(TAG, t.toString());
+            }
+        });
+    }
+
+    private void listView(){
+        mListView = (ListView) findViewById(R.id.listview_articles);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ArticlesActivity.this, ArticleActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("id", articles.get(position).getId());
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void toolbarAndDrawer(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_articles);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_articles);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view_articles);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                mDrawerLayout.closeDrawers();
+                Toast.makeText(ArticlesActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                return true;
             }
         });
     }

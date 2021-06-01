@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -22,4 +23,10 @@ public interface ArticleServiceAPI {
 
     @POST("dostava/artikal")
     Call<Article> create(@Body Article article);
+
+    @PUT("dostava/artikal/{id}")
+    Call<Article> update(@Body Article article, @Path("id") Long id);
+
+    @DELETE("dostava/artikal/{id}")
+    Call<Article> delete(@Path("id") Long id);
 }
