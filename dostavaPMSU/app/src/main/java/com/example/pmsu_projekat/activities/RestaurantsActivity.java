@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,9 +59,13 @@ public class RestaurantsActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
+                if (menuItem.getTitle().equals("Kreiraj artikal")){
+                    //Toast.makeText(RestaurantsActivity.this, "Dobar", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(RestaurantsActivity.this, CreateArticleActivity.class);
+                    startActivity(intent);
+                }
                 mDrawerLayout.closeDrawers();
-                Toast.makeText(RestaurantsActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(RestaurantsActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
                 return true;
             }
         });
@@ -100,7 +103,7 @@ public class RestaurantsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Seller>> call, Response<List<Seller>> response) {
 
-                Log.d("DataCheck",new Gson().toJson(response.body()));
+                //Log.d("DataCheck",new Gson().toJson(response.body()));
 
                 sellers = response.body();
 

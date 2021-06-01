@@ -1,8 +1,11 @@
 package com.example.pmsu_projekat.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -65,10 +68,20 @@ public class ArticlesActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 Toast.makeText(ArticlesActivity.this, menuItem.getTitle(), Toast.LENGTH_LONG).show();
                 return true;
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ArticlesActivity.this, ArticleActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("id", articles.get(position).getId());
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
     }
@@ -92,17 +105,9 @@ public class ArticlesActivity extends AppCompatActivity {
 
         call.enqueue(new Callback<List<Article>>() {
             @Override
-            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {;
 
-                //Article a1 = new Article(1L,"Dupla punjena", 350.0, "Opis 1",1L);
-                //Article a2 = new Article(2L,"Index", 250.0, "Opis 2",1L);
-                //Article a3 = new Article(3L,"Krilca", 320.0, "Opis 3", 2L);
-
-                //articlesTest.add(a1);
-                //articlesTest.add(a2);
-                //articlesTest.add(a3);
-
-                Log.d("DataCheck",new Gson().toJson(response.body()));
+                //Log.d("DataCheck",new Gson().toJson(response.body()));
 
                 articles = response.body();
 

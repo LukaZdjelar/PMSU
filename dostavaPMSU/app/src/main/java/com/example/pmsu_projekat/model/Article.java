@@ -15,6 +15,13 @@ public class Article {
         this.prodavacId = prodavacId;
     }
 
+    public Article(String naziv, Double cena, String opis, Long prodavacId) {
+        this.naziv = naziv;
+        this.cena = cena;
+        this.opis = opis;
+        this.prodavacId = prodavacId;
+    }
+
     public Long getId() {
         return id;
     }

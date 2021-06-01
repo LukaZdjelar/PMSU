@@ -10,15 +10,18 @@ public class Kupac extends Korisnik{
 
 	@Column(name = "adresa", nullable = false)
 	private String adresa;
+	@Column(name = "banovan", nullable = false)
+	private boolean banovan;
 	
 	public Kupac() {
 		
 	}
 
 	public Kupac(Long id, String ime, String prezime, String korisnickoIme, String lozinka, EUloga uloga,
-			String adresa) {
+			String adresa, boolean banovan) {
 		super(id, ime, prezime, korisnickoIme, lozinka, uloga);
 		this.adresa = adresa;
+		this.banovan = banovan;
 	}
 
 	public String getAdresa() {
@@ -27,6 +30,14 @@ public class Kupac extends Korisnik{
 
 	public void setAdresa(String adresa) {
 		this.adresa = adresa;
+	}
+	
+	public boolean isBanovan() {
+		return banovan;
+	}
+
+	public void setBanovan(boolean banovan) {
+		this.banovan = banovan;
 	}
 
 	@Override

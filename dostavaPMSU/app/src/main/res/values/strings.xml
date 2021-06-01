@@ -3,13 +3,10 @@
     <string name="korisnicko_ime">Korisnicko ime</string>
     <string name="lozinka">Lozinka</string>
     <string name="prijavi_se">Prijavi se</string>
+    <string name="Registracija">Registruj se</string>
+    <string name="potvrdi">Potvrdi</string>
     <string-array name="spinnerRoles">
         <item>Kupac</item>
         <item>Prodavac</item>
-    </string-array>
-    <string-array name="restaurants">
-        <item>Kod Zokija</item>
-        <item>Fruskogorac</item>
-        <item>Piazza</item>
     </string-array>
 </resources>

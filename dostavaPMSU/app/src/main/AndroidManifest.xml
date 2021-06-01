@@ -32,6 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ArticlesActivity" />
+        <activity android:name=".activities.CreateArticleActivity" />
+        <activity android:name=".activities.ArticleActivity" />
     </application>
 
 </manifest>
