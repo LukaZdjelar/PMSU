@@ -25,6 +25,8 @@ public class KupacController {
 	
 	@PostMapping("/registracija")
 	public ResponseEntity<Kupac> register(@RequestBody Kupac kupac){
+		System.out.println("usao");
+		System.out.println(kupac.toString());
 		
 		
 		if (kupac.getIme() =="" || kupac.getIme() == null) {

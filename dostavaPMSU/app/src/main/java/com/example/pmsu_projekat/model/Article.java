@@ -1,6 +1,8 @@
 package com.example.pmsu_projekat.model;
 
-public class Article {
+import java.io.Serializable;
+
+public class Article implements Serializable {
     private Long id;
     private String naziv;
     private Double cena;

@@ -32,10 +32,7 @@ public class UpdateArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_info);
 
-        Bundle b = getIntent().getExtras();
-        if(b != null)
-            article = new Article(b.getLong("id"), b.getString("name"), b.getDouble("price"),
-                                b.getString("description"), b.getLong("seller_id"));
+        article = (Article) getIntent().getSerializableExtra("article");
 
         setValues();
 

@@ -31,6 +31,17 @@ public class ArtikalController {
 	@Autowired
 	ProdavacService prodavacService;
 	
+//	@GetMapping
+//	public ResponseEntity<List<ArtikalDTO>> getAll(){
+//		List<ArtikalDTO> dtoList = new ArrayList<>();
+//		
+//		for (Artikal artikal : artikalService.findAll()) {
+//			dtoList.add(new ArtikalDTO(artikal));
+//		}
+//		
+//		return new ResponseEntity<>(dtoList, HttpStatus.OK);
+//	}
+	
 	@GetMapping
 	public ResponseEntity<List<ArtikalDTO>> getAll(Long prodavacId){
 		List<ArtikalDTO> dtoList = new ArrayList<>();

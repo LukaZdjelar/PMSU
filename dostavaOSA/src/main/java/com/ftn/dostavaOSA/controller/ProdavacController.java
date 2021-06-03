@@ -61,6 +61,8 @@ public class ProdavacController {
 	
 	@PostMapping("/registracija")
 	public ResponseEntity<Prodavac> register(@RequestBody Prodavac prodavac){
+		System.out.println("usao");
+		System.out.println(prodavac.toString());
 		
 		if (prodavac.getIme() =="" || prodavac.getIme() == null) {
 			return new ResponseEntity<Prodavac>(HttpStatus.BAD_REQUEST);

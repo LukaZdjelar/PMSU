@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:background="@color/primary"
-    android:padding="16dp">
+    android:padding="10dp">
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/sicilia"
+        android:layout_height="80dp"
+        android:src="@drawable/marathonsingle"
         android:layout_gravity="top"/>
 
     <TextView

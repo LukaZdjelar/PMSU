@@ -53,12 +53,13 @@ public class ArticleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ArticleActivity.this, UpdateArticleActivity.class);
                 Bundle b = new Bundle();
-                b.putLong("id", article.getId());
+/*                b.putLong("id", article.getId());
                 b.putString("name", article.getNaziv());
                 b.putString("description", article.getOpis());
                 b.putDouble("price", article.getCena());
-                b.putLong("seller_id", article.getProdavacId());
-                intent.putExtras(b);
+                b.putLong("seller_id", article.getProdavacId());*/
+                //intent.putExtras(b);
+                intent.putExtra("article", article);
                 startActivity(intent);
             }
         });
