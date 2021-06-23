@@ -67,12 +67,24 @@ public class CreateArticleActivity extends AppCompatActivity {
         article = new Article(tiName.getEditText().getText().toString(), Double.parseDouble(tiPrice.getEditText().getText().toString()),
                             tiDescription.getEditText().getText().toString(), seller_id);
 
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(LocalHost.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
+        SharedPreferences preferences = getSharedPreferences(LoginActivity.sharedPrefernces, MODE_PRIVATE);
+        String token = preferences.getString(LoginActivity.token, "");
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request newRequest  = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer " + token)
+                        .build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(LocalHost.BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         ArticleServiceAPI articleServiceAPI = retrofit.create(ArticleServiceAPI.class);
         Call<Article> call = articleServiceAPI.create(article);
