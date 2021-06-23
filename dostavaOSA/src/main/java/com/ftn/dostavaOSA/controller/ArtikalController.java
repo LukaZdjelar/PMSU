@@ -42,6 +42,7 @@ public class ArtikalController {
 //		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 //	}
 	
+	@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@GetMapping
 	public ResponseEntity<List<ArtikalDTO>> getAll(Long prodavacId){
 		List<ArtikalDTO> dtoList = new ArrayList<>();
@@ -55,7 +56,7 @@ public class ArtikalController {
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 	
-	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
+	@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ArtikalDTO> get(@PathVariable("id") Long id){
 		
@@ -65,7 +66,7 @@ public class ArtikalController {
 		return new ResponseEntity<>(artikalDTO, HttpStatus.OK);
 	}
 	
-	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('PRODAVAC')")
 	@PostMapping
 	public ResponseEntity<Artikal> create(@RequestBody ArtikalDTO artikalDTO){
 		
@@ -78,7 +79,7 @@ public class ArtikalController {
 		
 	}
 	
-	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('PRODAVAC')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Artikal> update(@RequestBody ArtikalDTO novi, @PathVariable("id") Long id){
 		
@@ -91,15 +92,11 @@ public class ArtikalController {
 		return new ResponseEntity<Artikal>(artikal, HttpStatus.OK);
 	}
 	
-	//@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('PRODAVAC')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Artikal> delete(@PathVariable("id") Long id){
 		
-		System.out.println(id);
-		
 		Artikal artikal = artikalService.findArtikalById(id);
-		
-		System.out.println(artikal);
 		
 		artikalService.delete(artikal);
 		

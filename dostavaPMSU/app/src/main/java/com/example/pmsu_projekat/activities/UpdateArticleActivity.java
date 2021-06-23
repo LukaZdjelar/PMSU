@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.pmsu_projekat.R;
 import com.example.pmsu_projekat.model.Article;
 import com.example.pmsu_projekat.service.ArticleServiceAPI;
+import com.example.pmsu_projekat.tools.LocalHost;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
@@ -23,7 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UpdateArticleActivity extends AppCompatActivity {
 
     static Retrofit retrofit = null;
-    static final String BASE_URL = "http://192.168.0.13:8080/";
     Article article;
 
     @Override
@@ -41,11 +41,6 @@ public class UpdateArticleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateArticle();
-                Intent intent = new Intent(UpdateArticleActivity.this, ArticleActivity.class);
-                Bundle b = new Bundle();
-                b.putLong("id", article.getId());
-                intent.putExtras(b);
-                startActivity(intent);
             }
         });
     }
@@ -55,7 +50,7 @@ public class UpdateArticleActivity extends AppCompatActivity {
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(LocalHost.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -65,10 +60,12 @@ public class UpdateArticleActivity extends AppCompatActivity {
         call.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
+                startActivity();
             }
 
             @Override
             public void onFailure(Call<Article> call, Throwable t) {
+
                 Log.e("Error", t.toString());
             }
         });
@@ -92,5 +89,13 @@ public class UpdateArticleActivity extends AppCompatActivity {
         article.setNaziv(tiName.getEditText().getText().toString());
         article.setCena(Double.parseDouble(tiPrice.getEditText().getText().toString()));
         article.setOpis(tiDescription.getEditText().getText().toString());
+    }
+
+    private void startActivity(){
+        Intent intent = new Intent(UpdateArticleActivity.this, ArticlesActivity.class);
+        Bundle b = new Bundle();
+        b.putLong("id", article.getProdavacId());
+        intent.putExtras(b);
+        startActivity(intent);
     }
 }

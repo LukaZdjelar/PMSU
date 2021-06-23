@@ -33,6 +33,12 @@ public class Stavka {
 		this.kolicina = kolicina;
 		this.artikal = artikal;
 	}
+	
+	public Stavka(Integer kolicina, Artikal artikal) {
+		super();
+		this.kolicina = kolicina;
+		this.artikal = artikal;
+	}
 
 	public Long getId() {
 		return id;

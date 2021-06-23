@@ -3,8 +3,20 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:checked="true"
+            android:id="@+id/kreiraj_artikal_menu"
             android:title="Kreiraj artikal" />
+        <item
+            android:id="@+id/prodavnice_menu"
+            android:title="Prodavnice" />
+        <item
+            android:id="@+id/recenzije_menu"
+            android:title="Recenzije" />
+        <item
+            android:id="@+id/korisnici_menu"
+            android:title="Korisnici" />
+        <item
+            android:id="@+id/odjavi_se_menu"
+            android:title="Odjavi se"/>
     </group>
 
 </menu>

@@ -1,5 +1,6 @@
 package com.ftn.dostavaOSA.controller;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +10,20 @@ import javax.net.ssl.SSLEngineResult.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ftn.dostavaOSA.dto.ProdavacDTO;
 import com.ftn.dostavaOSA.model.EUloga;
+import com.ftn.dostavaOSA.model.Porudzbina;
 import com.ftn.dostavaOSA.model.Prodavac;
+import com.ftn.dostavaOSA.service.PorudzbinaService;
 import com.ftn.dostavaOSA.service.ProdavacService;
 
 @Controller
@@ -29,8 +34,14 @@ public class ProdavacController {
 	ProdavacService prodavacService;
 	
 	@Autowired
+	PorudzbinaService porudzbinaService;
+	
+	@Autowired
     private PasswordEncoder passwordEncoder;
 	
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
+	
+	@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@GetMapping
 	public ResponseEntity<List<ProdavacDTO>> getAll(){
 		
@@ -44,25 +55,19 @@ public class ProdavacController {
 		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 	
-	@GetMapping("/prodavnice")
-	public ResponseEntity<ArrayList<String>> getAllProdavnica(){
-		
-		ArrayList<String> prodavnice = prodavacService.findAllProdavnice();
-		return new ResponseEntity<>(prodavnice, HttpStatus.OK);
-	}
-	
+	@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Prodavac> get(Long id){
+	public ResponseEntity<ProdavacDTO> get(@PathVariable("id") Long id){
 		
 		Prodavac prodavac = prodavacService.findProdavacById(id);
 		
-		return new ResponseEntity<>(prodavac, HttpStatus.OK);
+		ProdavacDTO prodavacDTO = new ProdavacDTO(prodavac);
+		
+		return new ResponseEntity<>(prodavacDTO, HttpStatus.OK);
 	}
 	
 	@PostMapping("/registracija")
 	public ResponseEntity<Prodavac> register(@RequestBody Prodavac prodavac){
-		System.out.println("usao");
-		System.out.println(prodavac.toString());
 		
 		if (prodavac.getIme() =="" || prodavac.getIme() == null) {
 			return new ResponseEntity<Prodavac>(HttpStatus.BAD_REQUEST);
@@ -102,5 +107,26 @@ public class ProdavacController {
 		prodavacService.save(prodavac);
 		
 		return new ResponseEntity<Prodavac>(prodavac, HttpStatus.OK);
+	}
+	
+	@GetMapping("/prosek/{id}") 
+	public ResponseEntity<Double> average(@PathVariable("id") Long id){
+		Double prosecnaOcena;
+		Integer suma = 0;
+		List<Integer> ocene = new ArrayList<>();
+		List<Porudzbina> porudzbine = porudzbinaService.findAll();
+		for (Porudzbina porudzbina : porudzbine) {
+			if (porudzbina.getProdavac().getId() == id && porudzbina.getOcena() != null) {
+				ocene.add(porudzbina.getOcena());
+			}
+		}
+		for (Integer ocena : ocene) {
+			suma += ocena;
+		}
+		prosecnaOcena = (suma * 1.0 / ocene.size());
+		
+		prosecnaOcena = Double.valueOf(df2.format(prosecnaOcena));
+		
+		return new ResponseEntity<>(prosecnaOcena, HttpStatus.OK);
 	}
 }

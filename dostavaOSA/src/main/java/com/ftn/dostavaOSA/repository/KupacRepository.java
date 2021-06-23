@@ -6,4 +6,5 @@ import com.ftn.dostavaOSA.model.Kupac;
 
 public interface KupacRepository extends JpaRepository<Kupac, Long> {
 	
+	Kupac findKupacById(Long id);
 }

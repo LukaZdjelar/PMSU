@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,7 @@ import com.example.pmsu_projekat.R;
 import com.example.pmsu_projekat.model.CustomerRegister;
 import com.example.pmsu_projekat.model.SellerRegister;
 import com.example.pmsu_projekat.service.CustomerServiceAPI;
+import com.example.pmsu_projekat.tools.LocalHost;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
@@ -29,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
     SellerRegister seller;
     CustomerRegister customer;
     static Retrofit retrofit = null;
-    static final String BASE_URL = "http://192.168.0.13:8080/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(LocalHost.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -93,7 +94,8 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<CustomerRegister>() {
             @Override
             public void onResponse(Call<CustomerRegister> call, Response<CustomerRegister> response) {
-
+                Toast t = Toast.makeText(getApplicationContext(), "Uspesna registracija", Toast.LENGTH_SHORT);
+                t.show();
             }
 
             @Override

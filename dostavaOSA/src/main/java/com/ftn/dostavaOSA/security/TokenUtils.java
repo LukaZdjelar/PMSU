@@ -3,9 +3,13 @@ package com.ftn.dostavaOSA.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.ftn.dostavaOSA.service.KorisnikService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +23,9 @@ public class TokenUtils {
 
     @Value("3600")
     private Long expiration;
+    
+    @Autowired
+    KorisnikService korisnikService;
 
     public String getUsernameFromToken(String token) {
         String username;
@@ -67,7 +74,8 @@ public class TokenUtils {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<String, Object>();
         claims.put("sub", userDetails.getUsername());
-        claims.put("role", userDetails.getAuthorities().toArray()[0]);
+        claims.put("role", userDetails.getAuthorities().toArray()[0].toString());
+        claims.put("id", korisnikService.findKorisnikByKorisnickoIme(userDetails.getUsername()).getId());
         claims.put("created", new Date(System.currentTimeMillis()));
         return Jwts.builder().setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))

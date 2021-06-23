@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,7 @@ import com.example.pmsu_projekat.R;
 import com.example.pmsu_projekat.model.Seller;
 import com.example.pmsu_projekat.model.SellerRegister;
 import com.example.pmsu_projekat.service.SellerServiceAPI;
+import com.example.pmsu_projekat.tools.LocalHost;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
@@ -25,7 +27,6 @@ public class RegisterSellerActivity extends AppCompatActivity {
 
     SellerRegister seller;
     static Retrofit retrofit = null;
-    static final String BASE_URL = "http://192.168.0.13:8080/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,6 @@ public class RegisterSellerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sellerData();
                 register();
-                Log.d("DataCheck",new Gson().toJson(seller));
                 Intent intent = new Intent(RegisterSellerActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -58,7 +58,7 @@ public class RegisterSellerActivity extends AppCompatActivity {
     private void register(){
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(LocalHost.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -68,7 +68,8 @@ public class RegisterSellerActivity extends AppCompatActivity {
         call.enqueue(new Callback<SellerRegister>() {
             @Override
             public void onResponse(Call<SellerRegister> call, Response<SellerRegister> response) {
-
+                Toast t = Toast.makeText(getApplicationContext(), "Uspesna registracija", Toast.LENGTH_SHORT);
+                t.show();
             }
 
             @Override

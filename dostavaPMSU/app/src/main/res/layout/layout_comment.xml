@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CommentsActivity"
+    android:id="@+id/layout_comment"
+    android:theme="@style/Theme.PMSUProjekat"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/comment_layout_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Korisnicko ime"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/comment_layout_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Komentar"
+        android:textSize="15sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arhiviraj"
+            android:id="@+id/button_archive_comment"
+            android:backgroundTint="@color/primary"/>
+
+        <TextView
+            android:id="@+id/comment_layout_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:gravity="end"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

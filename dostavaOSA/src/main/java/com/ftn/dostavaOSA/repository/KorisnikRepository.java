@@ -8,4 +8,5 @@ import com.ftn.dostavaOSA.model.Korisnik;
 @Repository
 public interface KorisnikRepository extends JpaRepository<Korisnik, Long>{
 	Korisnik findKorisnikByKorisnickoIme(String korisnickoIme);
+	Korisnik findKorisnikById(Long id);
 }

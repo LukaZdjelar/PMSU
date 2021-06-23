@@ -60,25 +60,75 @@
             android:text="750"
             android:textSize="50sp"/>
 
-        <Button
-            android:id="@+id/articleEditButton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:backgroundTint="@color/primary"
-            android:text="Izmeni" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/articleDeleteButton"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:backgroundTint="@color/primary"
-            android:text="Izbrisi" />
+            <Button
+                android:id="@+id/articleEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="Izmeni"
+                android:gravity="center"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:id="@+id/articleDeleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="Izbrisi"
+                android:gravity="center"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/buttonAddToCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="Dodaj u korpu"
+                android:layout_weight="0.3"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/order_cart_ammount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:layout_gravity="center">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="1"
+                    android:textAlignment="center"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
 
     </LinearLayout>
 

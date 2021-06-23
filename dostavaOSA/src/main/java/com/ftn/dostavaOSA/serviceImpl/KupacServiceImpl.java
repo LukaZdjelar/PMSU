@@ -17,4 +17,11 @@ public class KupacServiceImpl implements KupacService{
 	public Kupac save(Kupac kupac) {
 		return kupacRepository.save(kupac);
 	}
+
+	@Override
+	public Kupac findKupacById(Long id) {
+//		System.out.println("Kupac");
+//		System.out.println(id);
+		return kupacRepository.findKupacById(id);
+	}
 }

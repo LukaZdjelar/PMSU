@@ -10,7 +10,7 @@ public class ProdavacDTO {
     private String naziv;
     private String adresa;
     private String email;
-    private LocalDate poslujeOd;
+    private String poslujeOd;
     private Boolean banovan;
     
     public ProdavacDTO() {
@@ -23,6 +23,7 @@ public class ProdavacDTO {
 		naziv = prodavac.getNaziv();
 		adresa = prodavac.getAdresa();
 		email = prodavac.getEmail();
+		poslujeOd = prodavac.getPoslujeOd().toString();
 		banovan = prodavac.isBanovan();
 	}
 
@@ -56,6 +57,14 @@ public class ProdavacDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPoslujeOd() {
+		return poslujeOd;
+	}
+
+	public void setPoslujeOd(String poslujeOd) {
+		this.poslujeOd = poslujeOd;
 	}
 
 	public Boolean getBanovan() {

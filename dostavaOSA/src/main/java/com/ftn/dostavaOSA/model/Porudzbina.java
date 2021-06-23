@@ -3,14 +3,18 @@ package com.ftn.dostavaOSA.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.ftn.dostavaOSA.dto.PorudzbinaKorpaDTO;
 
 @Entity
 @Table(name="porudzbina")
@@ -21,7 +25,7 @@ public class Porudzbina {
 	@Column(name="id", nullable=false, unique=true)
 	private Long id;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	private List<Stavka> stavke;
 	
 	@Column(name="satnica")
@@ -42,15 +46,18 @@ public class Porudzbina {
 	@Column(name="arhiviranikomentar")
 	private boolean arhiviranikomentar;
 	
-	@OneToOne
+	@ManyToOne
 	private Kupac kupac;
+	
+	@ManyToOne
+	private Prodavac prodavac;
 	
 	public Porudzbina() {
 		
 	}
 
 	public Porudzbina(Long id, List<Stavka> stavke, LocalDate satnica, boolean dostavljeno, Integer ocena,
-			String komentar, boolean anonimniKomentar, boolean arhiviranikomentar) {
+			String komentar, boolean anonimniKomentar, boolean arhiviranikomentar, Kupac kupac, Prodavac prodavac) {
 		super();
 		this.id = id;
 		this.stavke = stavke;
@@ -60,6 +67,8 @@ public class Porudzbina {
 		this.komentar = komentar;
 		this.anonimniKomentar = anonimniKomentar;
 		this.arhiviranikomentar = arhiviranikomentar;
+		this.kupac = kupac;
+		this.prodavac = prodavac;
 	}
 
 	public Long getId() {
@@ -126,12 +135,26 @@ public class Porudzbina {
 		this.arhiviranikomentar = arhiviranikomentar;
 	}
 
+	public Kupac getKupac() {
+		return kupac;
+	}
+
+	public void setKupac(Kupac kupac) {
+		this.kupac = kupac;
+	}
+
+	public Prodavac getProdavac() {
+		return prodavac;
+	}
+
+	public void setProdavac(Prodavac prodavac) {
+		this.prodavac = prodavac;
+	}
+
 	@Override
 	public String toString() {
 		return "Porudzbina [id=" + id + ", stavke=" + stavke + ", satnica=" + satnica + ", dostavljeno=" + dostavljeno
 				+ ", ocena=" + ocena + ", komentar=" + komentar + ", anonimniKomentar=" + anonimniKomentar
-				+ ", arhiviranikomentar=" + arhiviranikomentar + "]";
+				+ ", arhiviranikomentar=" + arhiviranikomentar + ", kupac=" + kupac + ", prodavac=" + prodavac + "]";
 	}
-	
-	
 }

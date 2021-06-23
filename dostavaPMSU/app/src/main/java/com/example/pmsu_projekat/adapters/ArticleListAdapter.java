@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.pmsu_projekat.R;
 import com.example.pmsu_projekat.model.Article;
+import com.example.pmsu_projekat.model.CartItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,7 @@ public class ArticleListAdapter extends ArrayAdapter<Article> {
 
     private Context mContext;
     int mResource;
+    List<CartItem> cartItems = new ArrayList<>();
 
     public ArticleListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Article> objects) {
         super(context, resource, objects);
@@ -33,8 +37,6 @@ public class ArticleListAdapter extends ArrayAdapter<Article> {
         String name = getItem(position).getNaziv();
         Double price = getItem(position).getCena();
         String description = getItem(position).getOpis();
-
-        //Article article = new Article(name, price, description);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

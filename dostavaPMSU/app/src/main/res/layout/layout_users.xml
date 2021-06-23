@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:theme="@style/Theme.PMSUProjekat"
+    tools:context=".activities.UsersActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/user_firstname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Ime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text=" "/>
+
+        <TextView
+            android:id="@+id/user_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Prezime"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/user_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Korisnicko Ime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=", "/>
+
+        <TextView
+            android:id="@+id/user_role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ULOGA"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blokiraj"
+        android:backgroundTint="@color/primary"/>
+
+</LinearLayout>

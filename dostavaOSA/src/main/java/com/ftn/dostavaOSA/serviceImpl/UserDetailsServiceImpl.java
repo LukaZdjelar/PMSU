@@ -23,7 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String korisnickoIme) throws UsernameNotFoundException {
 		Korisnik korisnik = korisnikService.findKorisnikByKorisnickoIme(korisnickoIme);
-		System.out.println(korisnik.toString());
 
         if(korisnik == null){
             throw new UsernameNotFoundException("There is no user with username " + korisnickoIme);

@@ -8,13 +8,15 @@ public class Seller {
     private String naziv;
     private String adresa;
     private String email;
+    private String poslujeOd;
     private Boolean banovan;
 
-    public Seller(Long id, String naziv, String adresa, String email, Boolean banovan) {
+    public Seller(Long id, String naziv, String adresa, String email, String poslujeOd, Boolean banovan) {
         this.id = id;
         this.naziv = naziv;
         this.adresa = adresa;
         this.email = email;
+        this.poslujeOd = poslujeOd;
         this.banovan = banovan;
     }
 
@@ -56,5 +58,13 @@ public class Seller {
 
     public void setBanovan(Boolean banovan) {
         this.banovan = banovan;
+    }
+
+    public String getPoslujeOd() {
+        return poslujeOd;
+    }
+
+    public void setPoslujeOd(String poslujeOd) {
+        this.poslujeOd = poslujeOd;
     }
 }
