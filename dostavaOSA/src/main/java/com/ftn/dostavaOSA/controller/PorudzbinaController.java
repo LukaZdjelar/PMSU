@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.websocket.server.PathParam;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,8 @@ public class PorudzbinaController {
 	StavkaService stavkaService;
 
 	StavkaDTO stavkaDTO = new StavkaDTO();
+
+	Logger logger = LogManager.getLogger();
 	
 	@GetMapping
 	public ResponseEntity<List<Porudzbina>> getAll(){
@@ -92,8 +96,10 @@ public class PorudzbinaController {
 			nadji.setStavke(stavke);
 			
 			porudzbinaService.save(nadji);
+			logger.info("Uspesno dodato u korpu");
 		}else {
 			porudzbinaService.save(porudzbina);
+			logger.info("Uspesno dodato u korpu");
 		}
 		return new ResponseEntity<Porudzbina>(porudzbina, HttpStatus.OK);
 	}
@@ -130,7 +136,8 @@ public class PorudzbinaController {
 		porudzbina.setKomentar(porudzbinaDTO.getKomentar());
 		porudzbinaService.save(porudzbina);
 		porudzbinaDTO = new PorudzbinaDTO(porudzbina);
-		
+
+		logger.info("Uspesno ocenjivanje");
 		return new ResponseEntity<>(porudzbinaDTO, HttpStatus.OK);
 	}
 	
@@ -156,6 +163,7 @@ public class PorudzbinaController {
 				if (stavka.getId() == stavkaId) {
 					porudzbina.getStavke().remove(stavka);
 					porudzbinaService.save(porudzbina);
+					logger.info("Uspesno izbaceno iz korpe");
 					return new ResponseEntity<>(stavkaId, HttpStatus.OK);
 				}
 			}
@@ -174,6 +182,7 @@ public class PorudzbinaController {
 					stavka.setKolicina(ammount);
 					porudzbina.getStavke().add(stavka);
 					porudzbinaService.save(porudzbina);
+					logger.info("Uspesno promenjena kolicina");
 					return new ResponseEntity<>(HttpStatus.OK);
 				}
 			}
@@ -190,7 +199,8 @@ public class PorudzbinaController {
 		porudzbinaService.save(porudzbina);
 		
 		PorudzbinaDTO porudzbinaDTO = new PorudzbinaDTO(porudzbina);
-		
+
+		logger.info("Uspesno arhiviran komentar");
 		return new ResponseEntity<>(porudzbinaDTO, HttpStatus.OK);
 		
 	}

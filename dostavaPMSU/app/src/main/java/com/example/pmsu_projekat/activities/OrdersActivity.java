@@ -52,6 +52,7 @@ public class OrdersActivity extends AppCompatActivity {
     String role;
     Long claim_id;
     Long seller_id;
+    Long user_id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -138,10 +139,12 @@ public class OrdersActivity extends AppCompatActivity {
             menu.removeItem(R.id.recenzije_menu);
             menu.removeItem(R.id.prodavnice_menu);
             menu.removeItem(R.id.korisnici_menu);
+            user_id = seller_id;
         }
         if (role.equals("ROLE_KUPAC")){
             menu.removeItem(R.id.kreiraj_artikal_menu);
             menu.removeItem(R.id.korisnici_menu);
+            user_id = customer_id;
         }
         if (role.equals("ROLE_ADMINISTRATOR")){
             menu.removeItem(R.id.recenzije_menu);
@@ -172,7 +175,16 @@ public class OrdersActivity extends AppCompatActivity {
                     Intent intent = new Intent(OrdersActivity.this, UsersActivity.class);
                     startActivity(intent);
                 }
+                if (menuItem.getTitle().equals("Promeni lozinku")){
+                    Intent intent = new Intent(OrdersActivity.this, PasswordActivity.class);
+                    Bundle b = new Bundle();
+                    b.putLong("user_id" , user_id);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }
                 if (menuItem.getTitle().equals("Odjavi se")){
+                    SharedPreferences sp = getSharedPreferences(LoginActivity.sharedPrefernces, MODE_PRIVATE);
+                    sp.edit().remove("token").apply();
                     Intent intent = new Intent(OrdersActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }

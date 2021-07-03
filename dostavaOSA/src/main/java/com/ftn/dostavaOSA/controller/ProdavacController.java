@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.net.ssl.SSLEngineResult.Status;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,8 @@ public class ProdavacController {
     private PasswordEncoder passwordEncoder;
 	
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
+
+	Logger logger = LogManager.getLogger();
 	
 	@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@GetMapping
@@ -105,6 +109,7 @@ public class ProdavacController {
 		prodavac.setPoslujeOd(LocalDate.now());
 		
 		prodavacService.save(prodavac);
+		logger.info("Uspesna registracija");
 		
 		return new ResponseEntity<Prodavac>(prodavac, HttpStatus.OK);
 	}

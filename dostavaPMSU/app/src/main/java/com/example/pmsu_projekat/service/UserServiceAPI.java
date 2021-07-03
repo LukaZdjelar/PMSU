@@ -1,5 +1,6 @@
 package com.example.pmsu_projekat.service;
 
+import com.example.pmsu_projekat.model.Password;
 import com.example.pmsu_projekat.model.User;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface UserServiceAPI {
 
     @PUT("dostava/korisnik/blok/{id}")
     Call<User> block(@Path("id") Long id);
+
+    @PUT("dostava/korisnik/lozinka/{id}")
+    Call<User> changePassword(@Path("id") Long id, @Body Password password);
 }

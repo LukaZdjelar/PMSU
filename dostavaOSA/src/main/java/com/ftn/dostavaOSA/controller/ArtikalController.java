@@ -3,6 +3,8 @@ package com.ftn.dostavaOSA.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,8 @@ public class ArtikalController {
 	
 	@Autowired
 	ProdavacService prodavacService;
+	
+	Logger logger = LogManager.getLogger();
 	
 //	@GetMapping
 //	public ResponseEntity<List<ArtikalDTO>> getAll(){
@@ -75,6 +79,7 @@ public class ArtikalController {
 		
 		artikalService.save(artikal);
 		
+		logger.info("Artikal uspesno kreiran");
 		return new ResponseEntity<Artikal>(artikal, HttpStatus.OK);
 		
 	}
@@ -89,6 +94,7 @@ public class ArtikalController {
 		
 		artikalService.save(artikal);
 		
+		logger.info("Artikal uspesno izmenjen");
 		return new ResponseEntity<Artikal>(artikal, HttpStatus.OK);
 	}
 	
@@ -100,6 +106,7 @@ public class ArtikalController {
 		
 		artikalService.delete(artikal);
 		
+		logger.info("Artikal uspesno izbrisan");
 		return new ResponseEntity<Artikal>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -15,6 +15,9 @@
             android:id="@+id/korisnici_menu"
             android:title="Korisnici" />
         <item
+            android:id="@+id/loznika_menu"
+            android:title="Promeni lozinku" />
+        <item
             android:id="@+id/odjavi_se_menu"
             android:title="Odjavi se"/>
     </group>

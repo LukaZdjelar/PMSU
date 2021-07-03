@@ -185,7 +185,13 @@ public class RestaurantsActivity extends AppCompatActivity {
                     Intent intent = new Intent(RestaurantsActivity.this, UsersActivity.class);
                     startActivity(intent);
                 }
+                if (menuItem.getTitle().equals("Promeni lozinku")){
+                    Intent intent = new Intent(RestaurantsActivity.this, PasswordActivity.class);
+                    startActivity(intent);
+                }
                 if (menuItem.getTitle().equals("Odjavi se")){
+                    SharedPreferences sp = getSharedPreferences(LoginActivity.sharedPrefernces, MODE_PRIVATE);
+                    sp.edit().remove("token").apply();
                     Intent intent = new Intent(RestaurantsActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }

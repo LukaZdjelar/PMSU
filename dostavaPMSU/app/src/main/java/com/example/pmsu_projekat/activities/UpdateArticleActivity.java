@@ -1,6 +1,7 @@
 package com.example.pmsu_projekat.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,11 @@ import com.example.pmsu_projekat.tools.LocalHost;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,10 +54,24 @@ public class UpdateArticleActivity extends AppCompatActivity {
     private void updateArticle() {
         setArticleData();
 
+        SharedPreferences preferences = getSharedPreferences(LoginActivity.sharedPrefernces, MODE_PRIVATE  );
+        String token = preferences.getString(LoginActivity.token, "");
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request newRequest  = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer " + token)
+                        .build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
+
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(LocalHost.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
                     .build();
         }
 

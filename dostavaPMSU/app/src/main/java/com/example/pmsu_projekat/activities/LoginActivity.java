@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                         else{
-                            Toast.makeText(LoginActivity.this, "Pogrsni podaci", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Pogresni podaci", Toast.LENGTH_SHORT).show();
                         }
                     }
 
