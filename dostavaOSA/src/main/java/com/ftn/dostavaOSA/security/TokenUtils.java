@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.ftn.dostavaOSA.service.KorisnikService;
+import com.ftn.dostavaOSA.service.interfaces.KorisnikService;
 
 import java.util.Date;
 import java.util.HashMap;

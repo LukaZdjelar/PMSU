@@ -7,4 +7,5 @@ import com.ftn.dostavaOSA.model.Artikal;
 public interface ArtikalRepository extends JpaRepository<Artikal, Long>{
 
 	Artikal findArtikalById(Long id);
+	
 }

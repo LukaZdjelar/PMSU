@@ -54,6 +54,7 @@ public class CommentListAdapter extends ArrayAdapter<Order> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String username = getItem(position).getKupac().getKorisnickoIme();
         String comment = getItem(position).getKomentar();
+        String date = getItem(position).getDatum();
         Integer rating = getItem(position).getOcena();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -61,6 +62,7 @@ public class CommentListAdapter extends ArrayAdapter<Order> {
 
         TextView tvUsername = (TextView) convertView.findViewById(R.id.comment_layout_username);
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_layout_comment);
+        TextView tvDate = (TextView) convertView.findViewById(R.id.comment_layout_date);
         TextView tvRating = (TextView) convertView.findViewById(R.id.comment_layout_rating);
 
         Button archiveButton = convertView.findViewById(R.id.button_archive_comment);
@@ -80,6 +82,7 @@ public class CommentListAdapter extends ArrayAdapter<Order> {
             tvUsername.setText(username);
         }
         tvComment.setText(comment);
+        tvDate.setText(date);
         tvRating.setText(Integer.toString(rating));
 
 

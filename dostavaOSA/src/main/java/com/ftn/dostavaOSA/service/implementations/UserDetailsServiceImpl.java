@@ -1,4 +1,4 @@
-package com.ftn.dostavaOSA.serviceImpl;
+package com.ftn.dostavaOSA.service.implementations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ftn.dostavaOSA.model.Korisnik;
-import com.ftn.dostavaOSA.service.KorisnikService;
+import com.ftn.dostavaOSA.service.interfaces.KorisnikService;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{

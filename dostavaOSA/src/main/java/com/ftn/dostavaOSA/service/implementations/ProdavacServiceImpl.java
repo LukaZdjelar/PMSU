@@ -1,4 +1,4 @@
-package com.ftn.dostavaOSA.serviceImpl;
+package com.ftn.dostavaOSA.service.implementations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ftn.dostavaOSA.model.Prodavac;
 import com.ftn.dostavaOSA.repository.ProdavacRepository;
-import com.ftn.dostavaOSA.service.ProdavacService;
+import com.ftn.dostavaOSA.service.interfaces.ProdavacService;
 
 @Service
 public class ProdavacServiceImpl implements ProdavacService{

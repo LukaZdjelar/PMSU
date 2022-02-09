@@ -33,9 +33,9 @@ import com.ftn.dostavaOSA.model.Korisnik;
 import com.ftn.dostavaOSA.model.Kupac;
 import com.ftn.dostavaOSA.model.Prodavac;
 import com.ftn.dostavaOSA.security.TokenUtils;
-import com.ftn.dostavaOSA.service.KorisnikService;
-import com.ftn.dostavaOSA.service.KupacService;
-import com.ftn.dostavaOSA.service.ProdavacService;
+import com.ftn.dostavaOSA.service.interfaces.KorisnikService;
+import com.ftn.dostavaOSA.service.interfaces.KupacService;
+import com.ftn.dostavaOSA.service.interfaces.ProdavacService;
 
 @Controller
 @RequestMapping("/korisnik")

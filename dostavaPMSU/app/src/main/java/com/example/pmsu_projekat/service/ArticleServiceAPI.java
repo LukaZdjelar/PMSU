@@ -1,6 +1,7 @@
 package com.example.pmsu_projekat.service;
 
 import com.example.pmsu_projekat.model.Article;
+import com.example.pmsu_projekat.model.ArticleFilter;
 
 import java.util.List;
 
@@ -29,4 +30,7 @@ public interface ArticleServiceAPI {
 
     @DELETE("dostava/artikal/{id}")
     Call<Article> delete(@Path("id") Long id);
+
+    @POST("dostava/artikal/filter")
+    Call<List<Article>> filter(@Body ArticleFilter articleFilter);
 }

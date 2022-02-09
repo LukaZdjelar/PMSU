@@ -1,4 +1,4 @@
-package com.ftn.dostavaOSA.serviceImpl;
+package com.ftn.dostavaOSA.service.implementations;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ftn.dostavaOSA.model.Korisnik;
 import com.ftn.dostavaOSA.repository.KorisnikRepository;
-import com.ftn.dostavaOSA.service.KorisnikService;
+import com.ftn.dostavaOSA.service.interfaces.KorisnikService;
 
 @Service
 public class KorisnikServiceImpl implements KorisnikService{

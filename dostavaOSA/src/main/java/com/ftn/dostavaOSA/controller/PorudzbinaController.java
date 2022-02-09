@@ -19,16 +19,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ftn.dostavaOSA.dto.ArtikalDTO;
+import com.ftn.dostavaOSA.dto.ArtikalFilterDTO;
 import com.ftn.dostavaOSA.dto.PorudzbinaDTO;
+import com.ftn.dostavaOSA.dto.PorudzbinaFilterDTO;
 import com.ftn.dostavaOSA.dto.PorudzbinaKorpaDTO;
 import com.ftn.dostavaOSA.dto.StavkaDTO;
 import com.ftn.dostavaOSA.model.Kupac;
 import com.ftn.dostavaOSA.model.Porudzbina;
 import com.ftn.dostavaOSA.model.Stavka;
-import com.ftn.dostavaOSA.service.ArtikalService;
-import com.ftn.dostavaOSA.service.KupacService;
-import com.ftn.dostavaOSA.service.PorudzbinaService;
-import com.ftn.dostavaOSA.service.StavkaService;
+import com.ftn.dostavaOSA.service.interfaces.ArtikalService;
+import com.ftn.dostavaOSA.service.interfaces.KupacService;
+import com.ftn.dostavaOSA.service.interfaces.PorudzbinaService;
+import com.ftn.dostavaOSA.service.interfaces.StavkaService;
 
 @Controller
 @RequestMapping("/porudzbina")
@@ -136,6 +139,7 @@ public class PorudzbinaController {
 		porudzbina.setKomentar(porudzbinaDTO.getKomentar());
 		porudzbinaService.save(porudzbina);
 		porudzbinaDTO = new PorudzbinaDTO(porudzbina);
+		porudzbinaService.index(porudzbinaDTO);
 
 		logger.info("Uspesno ocenjivanje");
 		return new ResponseEntity<>(porudzbinaDTO, HttpStatus.OK);
@@ -163,6 +167,7 @@ public class PorudzbinaController {
 				if (stavka.getId() == stavkaId) {
 					porudzbina.getStavke().remove(stavka);
 					porudzbinaService.save(porudzbina);
+					porudzbinaService.index(new PorudzbinaDTO(porudzbina));
 					logger.info("Uspesno izbaceno iz korpe");
 					return new ResponseEntity<>(stavkaId, HttpStatus.OK);
 				}
@@ -203,5 +208,21 @@ public class PorudzbinaController {
 		logger.info("Uspesno arhiviran komentar");
 		return new ResponseEntity<>(porudzbinaDTO, HttpStatus.OK);
 		
+	}
+	
+	@PreAuthorize("hasAnyRole('KUPAC')")
+	@PostMapping("/filter")
+	public ResponseEntity<List<PorudzbinaDTO>> filter(@RequestBody PorudzbinaFilterDTO porudzbinaFilterDTO){
+		return new ResponseEntity<>(porudzbinaService.filter(porudzbinaFilterDTO), HttpStatus.OK);
+	}
+	
+	@PostMapping("/es/indexsql")
+	public ResponseEntity<?> indexsql(){
+		for (Porudzbina porudzbina: porudzbinaService.findAll()) {
+			if (porudzbina.isDostavljeno()) {
+				porudzbinaService.index(new PorudzbinaDTO(porudzbina));
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

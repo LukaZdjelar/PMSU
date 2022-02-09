@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -46,7 +47,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         Bundle b = getIntent().getExtras();
-        if(b != null){
+        if (b != null) {
             order_id = b.getLong("order_id");
         }
 
@@ -66,18 +67,18 @@ public class CartActivity extends AppCompatActivity {
         order_id = 0L;
     }
 
-    public void displayMetrics(){
+    public void displayMetrics() {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout(width, (int)(height*0.6));
-        getWindow().setGravity(80);
+        getWindow().setLayout(width, (int) (height * 0.6));
+        getWindow().setGravity(Gravity.BOTTOM);
     }
 
-    private void finishOrderButton(){
+    private void finishOrderButton() {
         Button orderButton = findViewById(R.id.orderButton);
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +89,7 @@ public class CartActivity extends AppCompatActivity {
                 OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
                     @Override
                     public okhttp3.Response intercept(Chain chain) throws IOException {
-                        Request newRequest  = chain.request().newBuilder()
+                        Request newRequest = chain.request().newBuilder()
                                 .addHeader("Authorization", "Bearer " + token)
                                 .build();
                         return chain.proceed(newRequest);
@@ -101,10 +102,10 @@ public class CartActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
-                if (mListView == null || mListView.getCount() == 0){
+                if (mListView == null || mListView.getCount() == 0) {
                     order_id = 0L;
                 }
-                if(order_id > 0){
+                if (order_id > 0) {
                     OrderServiceAPI orderServiceAPI = retrofit.create(OrderServiceAPI.class);
                     Call<Order> call = orderServiceAPI.order(order_id);
 
@@ -122,7 +123,7 @@ public class CartActivity extends AppCompatActivity {
                             Log.e("poruci fail", t.toString());
                         }
                     });
-                }else{
+                } else {
                     Toast t = Toast.makeText(getApplicationContext(), "Korpa je prazna", Toast.LENGTH_SHORT);
                     t.show();
                 }
@@ -130,7 +131,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private void cartItems(){
+    private void cartItems() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(LocalHost.BASE_URL)
@@ -138,7 +139,7 @@ public class CartActivity extends AppCompatActivity {
                     .build();
         }
 
-        if(order_id > 0){
+        if (order_id > 0) {
             OrderServiceAPI orderServiceAPI = retrofit.create(OrderServiceAPI.class);
             Call<List<CartItem>> call = orderServiceAPI.getOneStavke(order_id);
 
@@ -157,7 +158,7 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-    public void listView(){
+    public void listView() {
         mListView = (ListView) findViewById(R.id.listview_cart_items);
         mListView.setAdapter(new CartItemListAdapter(this, R.layout.layout_cart_item, (ArrayList<CartItem>) cartItems));
     }

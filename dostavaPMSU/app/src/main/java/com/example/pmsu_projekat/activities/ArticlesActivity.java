@@ -22,6 +22,7 @@ import com.auth0.android.jwt.JWT;
 import com.example.pmsu_projekat.R;
 import com.example.pmsu_projekat.adapters.ArticleListAdapter;
 import com.example.pmsu_projekat.model.Article;
+import com.example.pmsu_projekat.model.ArticleFilter;
 import com.example.pmsu_projekat.model.CartItem;
 import com.example.pmsu_projekat.model.CartOrder;
 import com.example.pmsu_projekat.service.ArticleServiceAPI;
@@ -44,7 +45,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ArticlesActivity extends AppCompatActivity{
+public class ArticlesActivity extends AppCompatActivity {
     static final String TAG = ArticlesActivity.class.getSimpleName();
     List<CartItem> cartItems;
     DrawerLayout mDrawerLayout;
@@ -58,6 +59,7 @@ public class ArticlesActivity extends AppCompatActivity{
     String role;
     Long claim_id;
     Long user_id;
+    ArticleFilter filter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +68,10 @@ public class ArticlesActivity extends AppCompatActivity{
         setContentView(R.layout.activity_articles);
 
         Bundle b = getIntent().getExtras();
-        if(b != null)
+        if (b != null)
             seller_id = b.getLong("seller_id");
+
+        filter = (ArticleFilter)getIntent().getSerializableExtra("filter");
 
         FloatingActionButton floatingActionButton = findViewById(R.id.floating_button_cart);
 
@@ -78,28 +82,29 @@ public class ArticlesActivity extends AppCompatActivity{
         role = claimRole.asString();
         Claim claimId = jwt.getClaim("id");
         claim_id = claimId.asLong();
-        if (!role.equals("ROLE_KUPAC")){
+        if (!role.equals("ROLE_KUPAC")) {
             floatingActionButton.setVisibility(View.GONE);
         }
-        if (role.equals("ROLE_KUPAC")){
-            customer_id=claim_id;
-        }if (role.equals("ROLE_PRODAVAC")){
-            seller_id=claim_id;
+        if (role.equals("ROLE_KUPAC")) {
+            customer_id = claim_id;
         }
-
+        if (role.equals("ROLE_PRODAVAC")) {
+            seller_id = claim_id;
+        }
         toolbarAndDrawer();
         listView();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         pendingCart();
         getArticles();
         fab();
+        fab2();
     }
 
-    private void pendingCart(){
+    private void pendingCart() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(LocalHost.BASE_URL)
@@ -126,14 +131,14 @@ public class ArticlesActivity extends AppCompatActivity{
         });
     }
 
-    private void getArticles(){
+    private void getArticles() {
         SharedPreferences preferences = getSharedPreferences(LoginActivity.sharedPrefernces, MODE_PRIVATE);
         String token = preferences.getString(LoginActivity.token, "");
 
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request newRequest  = chain.request().newBuilder()
+                Request newRequest = chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer " + token)
                         .build();
                 return chain.proceed(newRequest);
@@ -147,24 +152,40 @@ public class ArticlesActivity extends AppCompatActivity{
                 .build();
 
         ArticleServiceAPI articleServiceAPI = retrofit.create(ArticleServiceAPI.class);
-        Call<List<Article>> call = articleServiceAPI.getAll(seller_id);
 
-        call.enqueue(new Callback<List<Article>>() {
-            @Override
-            public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
-                articles = response.body();
+        if (filter == null){
+            Call<List<Article>> call = articleServiceAPI.getAll(seller_id);
 
-                mListView.setAdapter(new ArticleListAdapter(getApplicationContext(), R.layout.layout_article, (ArrayList<Article>) articles));
-            }
+            call.enqueue(new Callback<List<Article>>() {
+                @Override
+                public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                    articles = response.body();
+                    mListView.setAdapter(new ArticleListAdapter(getApplicationContext(), R.layout.layout_article, (ArrayList<Article>) articles));
+                }
 
-            @Override
-            public void onFailure(Call<List<Article>> call, Throwable t) {
-                Log.e(TAG, t.toString());
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Article>> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                }
+            });
+        }else{
+            Call<List<Article>> call = articleServiceAPI.filter(filter);
+            call.enqueue(new Callback<List<Article>>() {
+                @Override
+                public void onResponse(Call<List<Article>> call, Response<List<Article>> response) {
+                    articles = response.body();
+                    mListView.setAdapter(new ArticleListAdapter(getApplicationContext(), R.layout.layout_article, (ArrayList<Article>) articles));
+                }
+
+                @Override
+                public void onFailure(Call<List<Article>> call, Throwable t) {
+                    Log.e("Error", t.toString());
+                }
+            });
+        }
     }
 
-    private void listView(){
+    private void listView() {
         mListView = (ListView) findViewById(R.id.listview_articles);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -174,17 +195,19 @@ public class ArticlesActivity extends AppCompatActivity{
                 Bundle b = new Bundle();
                 b.putLong("id", articles.get(position).getId());
                 b.putLong("seller_id", seller_id);
-                if (role.equals("ROLE_KUPAC")){
+                if (role.equals("ROLE_KUPAC")) {
                     b.putLong("customer_id", customer_id);
                 }
-                if(order_id > 0){ b.putLong("order_id", order_id); }
+                if (order_id > 0) {
+                    b.putLong("order_id", order_id);
+                }
                 intent.putExtras(b);
                 startActivity(intent);
             }
         });
     }
 
-    private void toolbarAndDrawer(){
+    private void toolbarAndDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_articles);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -194,20 +217,20 @@ public class ArticlesActivity extends AppCompatActivity{
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_articles);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view_articles);
-        Menu menu =navigationView.getMenu();
-        if (role.equals("ROLE_PRODAVAC")){
+        Menu menu = navigationView.getMenu();
+        if (role.equals("ROLE_PRODAVAC")) {
             menu.removeItem(R.id.recenzije_menu);
             menu.removeItem(R.id.prodavnice_menu);
             menu.removeItem(R.id.korisnici_menu);
             user_id = seller_id;
             Log.d("user_id articles", user_id.toString());
         }
-        if (role.equals("ROLE_KUPAC")){
+        if (role.equals("ROLE_KUPAC")) {
             menu.removeItem(R.id.kreiraj_artikal_menu);
             menu.removeItem(R.id.korisnici_menu);
             user_id = customer_id;
         }
-        if (role.equals("ROLE_ADMINISTRATOR")){
+        if (role.equals("ROLE_ADMINISTRATOR")) {
             menu.removeItem(R.id.recenzije_menu);
             menu.removeItem(R.id.kreiraj_artikal_menu);
             menu.removeItem(R.id.loznika_menu);
@@ -215,36 +238,36 @@ public class ArticlesActivity extends AppCompatActivity{
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                if (menuItem.getTitle().equals("Kreiraj artikal")){
+                if (menuItem.getTitle().equals("Kreiraj artikal")) {
                     Intent intent = new Intent(ArticlesActivity.this, CreateArticleActivity.class);
                     Bundle b = new Bundle();
-                    b.putLong("seller_id",seller_id);
+                    b.putLong("seller_id", seller_id);
                     intent.putExtras(b);
                     startActivity(intent);
                 }
-                if (menuItem.getTitle().equals("Prodavnice")){
+                if (menuItem.getTitle().equals("Prodavnice")) {
                     Intent intent = new Intent(ArticlesActivity.this, RestaurantsActivity.class);
                     startActivity(intent);
                 }
-                if (menuItem.getTitle().equals("Recenzije")){
+                if (menuItem.getTitle().equals("Recenzije")) {
                     Intent intent = new Intent(ArticlesActivity.this, OrdersActivity.class);
                     Bundle b = new Bundle();
                     b.putLong("customer_id", customer_id);
                     intent.putExtras(b);
                     startActivity(intent);
                 }
-                if (menuItem.getTitle().equals("Korisnici")){
+                if (menuItem.getTitle().equals("Korisnici")) {
                     Intent intent = new Intent(ArticlesActivity.this, UsersActivity.class);
                     startActivity(intent);
                 }
-                if (menuItem.getTitle().equals("Promeni lozinku")){
+                if (menuItem.getTitle().equals("Promeni lozinku")) {
                     Intent intent = new Intent(ArticlesActivity.this, PasswordActivity.class);
                     Bundle b = new Bundle();
-                    b.putLong("user_id" , user_id);
+                    b.putLong("user_id", user_id);
                     intent.putExtras(b);
                     startActivity(intent);
                 }
-                if (menuItem.getTitle().equals("Odjavi se")){
+                if (menuItem.getTitle().equals("Odjavi se")) {
                     SharedPreferences sp = getSharedPreferences(LoginActivity.sharedPrefernces, MODE_PRIVATE);
                     sp.edit().remove("token").apply();
                     Intent intent = new Intent(ArticlesActivity.this, LoginActivity.class);
@@ -256,13 +279,13 @@ public class ArticlesActivity extends AppCompatActivity{
         });
     }
 
-    private void fab(){
+    private void fab() {
         FloatingActionButton floatingActionButton = findViewById(R.id.floating_button_cart);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ArticlesActivity.this, CartActivity.class);
-                if(order_id > 0){
+                if (order_id > 0) {
                     Bundle b = new Bundle();
                     b.putLong("order_id", order_id);
                     intent.putExtras(b);
@@ -270,8 +293,23 @@ public class ArticlesActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+
     }
 
+    private void fab2() {
+        FloatingActionButton floatingActionButton = findViewById(R.id.floating_button_article_filter);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ArticlesActivity.this, FilterArticleActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("seller_id", seller_id);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+    }
 
 
     @Override

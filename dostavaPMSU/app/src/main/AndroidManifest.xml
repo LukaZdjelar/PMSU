@@ -14,7 +14,8 @@
         android:usesCleartextTraffic="true">
 
         <activity android:name=".MainActivity"></activity>
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".activities.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +25,8 @@
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.RegisterSellerActivity" />
-        <activity android:name=".activities.RestaurantsActivity">
+        <activity android:name=".activities.RestaurantsActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +37,8 @@
         <activity android:name=".activities.CreateArticleActivity" />
         <activity android:name=".activities.ArticleActivity" />
         <activity android:name=".activities.UpdateArticleActivity" />
-        <activity android:name=".activities.CartActivity" android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
-
+        <activity android:name=".activities.CartActivity"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
         </activity>
         <activity android:name=".activities.OrdersActivity" />
         <activity android:name=".activities.ReviewActivity" />
@@ -44,6 +46,12 @@
         <activity android:name=".activities.UsersActivity" />
         <activity android:name=".activities.RestaurantActivity" />
         <activity android:name=".activities.PasswordActivity" />
+        <activity android:name=".activities.FilterArticleActivity"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
+        </activity>
+        <activity android:name=".activities.FilterCommentsActivity"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

@@ -1,9 +1,11 @@
 package com.example.pmsu_projekat.service;
 
 import com.example.pmsu_projekat.model.Article;
+import com.example.pmsu_projekat.model.ArticleFilter;
 import com.example.pmsu_projekat.model.CartItem;
 import com.example.pmsu_projekat.model.CartOrder;
 import com.example.pmsu_projekat.model.Order;
+import com.example.pmsu_projekat.model.OrderFilter;
 
 import java.util.List;
 
@@ -51,4 +53,7 @@ public interface OrderServiceAPI {
 
     @PUT("dostava/porudzbina/arhiviraj/{id}")
     Call<Order> archive(@Path("id") Long id);
+
+    @POST("dostava/porudzbina/filter")
+    Call<List<Order>> filter(@Body OrderFilter orderFilter);
 }

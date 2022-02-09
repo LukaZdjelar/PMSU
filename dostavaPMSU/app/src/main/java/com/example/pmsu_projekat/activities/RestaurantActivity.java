@@ -23,7 +23,9 @@ import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.example.pmsu_projekat.R;
 import com.example.pmsu_projekat.adapters.CommentListAdapter;
+import com.example.pmsu_projekat.model.ArticleFilter;
 import com.example.pmsu_projekat.model.Order;
+import com.example.pmsu_projekat.model.OrderFilter;
 import com.example.pmsu_projekat.model.Seller;
 import com.example.pmsu_projekat.service.OrderServiceAPI;
 import com.example.pmsu_projekat.service.SellerServiceAPI;
@@ -55,6 +57,7 @@ public class RestaurantActivity extends AppCompatActivity {
     Long customer_id;
     Long seller_id;
     Long user_id;
+    OrderFilter filter = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class RestaurantActivity extends AppCompatActivity {
         if(b != null){
             seller_id = b.getLong("seller_id");
         }
+        filter = (OrderFilter)getIntent().getSerializableExtra("filter");
 
         SharedPreferences sp = getSharedPreferences(LoginActivity.sharedPrefernces, MODE_PRIVATE);
 
@@ -82,6 +86,7 @@ public class RestaurantActivity extends AppCompatActivity {
         getSeller();
         getComments();
         articlesButton();
+        filterButton();
         toolbarAndDrawer();
     }
 
@@ -144,20 +149,39 @@ public class RestaurantActivity extends AppCompatActivity {
                 .build();
 
         OrderServiceAPI orderServiceAPI = retrofit.create(OrderServiceAPI.class);
-        Call<List<Order>> call = orderServiceAPI.comments(seller_id);
 
-        call.enqueue(new Callback<List<Order>>() {
-            @Override
-            public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
-                mListView = findViewById(R.id.listview_restaurant_comments);
-                mListView.setAdapter(new CommentListAdapter(getApplicationContext(), R.layout.layout_comment, response.body()));
-            }
+        if(filter == null){
+            Call<List<Order>> call = orderServiceAPI.comments(seller_id);
 
-            @Override
-            public void onFailure(Call<List<Order>> call, Throwable t) {
-                Log.d("getComments fail",t.toString());
-            }
-        });
+            call.enqueue(new Callback<List<Order>>() {
+                @Override
+                public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+                    mListView = findViewById(R.id.listview_restaurant_comments);
+                    mListView.setAdapter(new CommentListAdapter(getApplicationContext(), R.layout.layout_comment, response.body()));
+                }
+
+                @Override
+                public void onFailure(Call<List<Order>> call, Throwable t) {
+                    Log.d("getComments fail",t.toString());
+                }
+            });
+        }else{
+            Call<List<Order>> call = orderServiceAPI.filter(filter);
+
+            call.enqueue(new Callback<List<Order>>() {
+                @Override
+                public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+                    Log.d("Comments", response.body().toString());
+                    mListView = findViewById(R.id.listview_restaurant_comments);
+                    mListView.setAdapter(new CommentListAdapter(getApplicationContext(), R.layout.layout_comment, response.body()));
+                }
+
+                @Override
+                public void onFailure(Call<List<Order>> call, Throwable t) {
+                    Log.d("getComments fail",t.toString());
+                }
+            });
+        }
     }
 
     private void averageRating(){
@@ -205,6 +229,20 @@ public class RestaurantActivity extends AppCompatActivity {
                 Intent intent = new Intent(RestaurantActivity.this, ArticlesActivity.class);
                 Bundle b = new Bundle();
                 b.putLong("seller_id" , seller_id);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void filterButton(){
+        Button filterButton = findViewById(R.id.button_filter_comments);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RestaurantActivity.this, FilterCommentsActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("seller_id", seller_id);
                 intent.putExtras(b);
                 startActivity(intent);
             }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ftn.dostavaOSA.model.EUloga;
 import com.ftn.dostavaOSA.model.Kupac;
-import com.ftn.dostavaOSA.service.KupacService;
+import com.ftn.dostavaOSA.service.interfaces.KupacService;
 
 @Controller
 @RequestMapping("/kupac")

@@ -17,13 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ftn.dostavaOSA.dto.ArtikalDTO;
+import com.ftn.dostavaOSA.dto.ArtikalFilterDTO;
 import com.ftn.dostavaOSA.model.Artikal;
-import com.ftn.dostavaOSA.service.ArtikalService;
-import com.ftn.dostavaOSA.service.ProdavacService;
+import com.ftn.dostavaOSA.service.interfaces.ArtikalService;
+import com.ftn.dostavaOSA.service.interfaces.ProdavacService;
 
-@Controller
+@RestController
 @RequestMapping("/artikal")
 public class ArtikalController {
 
@@ -78,6 +80,7 @@ public class ArtikalController {
 									prodavacService.findProdavacById(artikalDTO.getProdavacId()));
 		
 		artikalService.save(artikal);
+		artikalService.index(new ArtikalDTO(artikal));
 		
 		logger.info("Artikal uspesno kreiran");
 		return new ResponseEntity<Artikal>(artikal, HttpStatus.OK);
@@ -93,6 +96,7 @@ public class ArtikalController {
 				artikal.getProdavac());
 		
 		artikalService.save(artikal);
+		artikalService.index(new ArtikalDTO(artikal));
 		
 		logger.info("Artikal uspesno izmenjen");
 		return new ResponseEntity<Artikal>(artikal, HttpStatus.OK);
@@ -105,8 +109,29 @@ public class ArtikalController {
 		Artikal artikal = artikalService.findArtikalById(id);
 		
 		artikalService.delete(artikal);
+		artikalService.deleteIndex(new ArtikalDTO(artikal));
 		
 		logger.info("Artikal uspesno izbrisan");
 		return new ResponseEntity<Artikal>(HttpStatus.NO_CONTENT);
 	}
+	
+	@PreAuthorize("hasAnyRole('KUPAC')")
+	@PostMapping("/filter")
+	public ResponseEntity<List<ArtikalDTO>> filter(@RequestBody ArtikalFilterDTO artikalFilterDTO){
+		return new ResponseEntity<>(artikalService.filter(artikalFilterDTO), HttpStatus.OK);
+	}
+	
+	@GetMapping("/es")
+	public ResponseEntity<List<ArtikalDTO>> findAllES(){
+		return new ResponseEntity<>(artikalService.findAllES(), HttpStatus.OK) ;
+	}
+	
+//	Indeksiranje postojecih artikala iz sql
+//	@PostMapping("/es/indexsql")
+//	public ResponseEntity<?> indexsql(){
+//		for (Artikal artikal : artikalService.findAll()) {
+//			artikalService.index(new ArtikalDTO(artikal));
+//		}
+//		return new ResponseEntity<>(HttpStatus.OK);
+//	}
 }

@@ -1,4 +1,4 @@
-package com.ftn.dostavaOSA.service;
+package com.ftn.dostavaOSA.service.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;

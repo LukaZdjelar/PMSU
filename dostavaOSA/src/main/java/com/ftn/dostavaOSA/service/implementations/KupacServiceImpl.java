@@ -1,11 +1,11 @@
-package com.ftn.dostavaOSA.serviceImpl;
+package com.ftn.dostavaOSA.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.dostavaOSA.model.Kupac;
 import com.ftn.dostavaOSA.repository.KupacRepository;
-import com.ftn.dostavaOSA.service.KupacService;
+import com.ftn.dostavaOSA.service.interfaces.KupacService;
 
 @Service
 public class KupacServiceImpl implements KupacService{

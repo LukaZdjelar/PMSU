@@ -25,8 +25,8 @@ import com.ftn.dostavaOSA.dto.ProdavacDTO;
 import com.ftn.dostavaOSA.model.EUloga;
 import com.ftn.dostavaOSA.model.Porudzbina;
 import com.ftn.dostavaOSA.model.Prodavac;
-import com.ftn.dostavaOSA.service.PorudzbinaService;
-import com.ftn.dostavaOSA.service.ProdavacService;
+import com.ftn.dostavaOSA.service.interfaces.PorudzbinaService;
+import com.ftn.dostavaOSA.service.interfaces.ProdavacService;
 
 @Controller
 @RequestMapping("/prodavac")

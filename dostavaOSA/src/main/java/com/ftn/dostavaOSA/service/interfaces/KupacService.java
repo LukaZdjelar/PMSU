@@ -1,4 +1,4 @@
-package com.ftn.dostavaOSA.service;
+package com.ftn.dostavaOSA.service.interfaces;
 
 import com.ftn.dostavaOSA.model.Kupac;
 

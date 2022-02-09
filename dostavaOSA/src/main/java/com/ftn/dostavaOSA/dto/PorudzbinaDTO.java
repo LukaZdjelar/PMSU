@@ -5,25 +5,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import com.ftn.dostavaOSA.model.Porudzbina;
 import com.ftn.dostavaOSA.model.Prodavac;
 import com.ftn.dostavaOSA.model.Stavka;
-import com.ftn.dostavaOSA.service.PorudzbinaService;
+import com.ftn.dostavaOSA.service.interfaces.PorudzbinaService;
 
+@Document(indexName = "porudzbine")
+@Setting(settingPath = "/analyzers/serbianAnalyzer.json")
 public class PorudzbinaDTO {
 	
+	@Id
 	private Long porudzbinaId;
+	@Field(type = FieldType.Integer)
 	private Integer ocena;
 	private List<StavkaDTO> stavke = new ArrayList<StavkaDTO>();
+	@Field(type = FieldType.Text)
 	private String komentar;
 	private boolean anonimniKomentar;
 	private boolean arhiviranikomentar;
+	@Field(type = FieldType.Integer)
 	private Double cena = 0.0;
 	private String datum;
 	
 	private KupacDTO kupac;
 	private ProdavacDTO prodavac;
+	@Field(type = FieldType.Long)
+	private Long prodavacId;
 	
 	public PorudzbinaDTO() {
 		
@@ -47,6 +60,7 @@ public class PorudzbinaDTO {
 		datum = porudzbina.getSatnica().toString();
 		kupac = new KupacDTO(porudzbina.getKupac());
 		prodavac = new ProdavacDTO(porudzbina.getProdavac());
+		prodavacId = prodavac.getId();
 	}
 
 	public Long getPorudzbinaId() {
@@ -129,12 +143,19 @@ public class PorudzbinaDTO {
 		this.datum = datum;
 	}
 
+	public Long getProdavacId() {
+		return prodavacId;
+	}
+
+	public void setProdavacId(Long prodavacId) {
+		this.prodavacId = prodavacId;
+	}
+
 	@Override
 	public String toString() {
 		return "PorudzbinaDTO [porudzbinaId=" + porudzbinaId + ", ocena=" + ocena + ", stavke=" + stavke + ", komentar="
 				+ komentar + ", anonimniKomentar=" + anonimniKomentar + ", arhiviranikomentar=" + arhiviranikomentar
-				+ ", cena=" + cena + ", datum=" + datum + ", kupac=" + kupac + ", prodavac=" + prodavac + "]";
+				+ ", cena=" + cena + ", datum=" + datum + ", kupac=" + kupac + ", prodavac=" + prodavac
+				+ ", prodavacId=" + prodavacId + "]";
 	}
-
-	
 }

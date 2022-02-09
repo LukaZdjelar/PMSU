@@ -1,13 +1,26 @@
 package com.ftn.dostavaOSA.dto;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
+
 import com.ftn.dostavaOSA.model.Artikal;
 
+@Document(indexName = "artikli")
+@Setting(settingPath = "/analyzers/serbianAnalyzer.json")
 public class ArtikalDTO {
 
+	@Id
 	private Long id;
+	@Field(type = FieldType.Text)
 	private String naziv;
+	@Field(type = FieldType.Text)
 	private String opis;
+	@Field(type = FieldType.Double)
 	private Double cena;
+	@Field(type = FieldType.Long)
 	private Long prodavacId;
 	
 	public ArtikalDTO() {

@@ -1,24 +1,39 @@
-package com.ftn.dostavaOSA.serviceImpl;
+package com.ftn.dostavaOSA.service.implementations;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ftn.dostavaOSA.dto.ArtikalDTO;
+import com.ftn.dostavaOSA.dto.PorudzbinaDTO;
+import com.ftn.dostavaOSA.dto.PorudzbinaFilterDTO;
 import com.ftn.dostavaOSA.dto.PorudzbinaKorpaDTO;
+import com.ftn.dostavaOSA.dto.SimpleQueryDTO;
 import com.ftn.dostavaOSA.dto.StavkaDTO;
+import com.ftn.dostavaOSA.lucene.search.SearchQueryGenerator;
 import com.ftn.dostavaOSA.model.Artikal;
 import com.ftn.dostavaOSA.model.Porudzbina;
 import com.ftn.dostavaOSA.model.Stavka;
 import com.ftn.dostavaOSA.repository.PorudzbinaRepository;
-import com.ftn.dostavaOSA.service.ArtikalService;
-import com.ftn.dostavaOSA.service.KupacService;
-import com.ftn.dostavaOSA.service.PorudzbinaService;
-import com.ftn.dostavaOSA.service.ProdavacService;
+import com.ftn.dostavaOSA.repositoryES.PorudzbinaRepositoryES;
+import com.ftn.dostavaOSA.service.interfaces.ArtikalService;
+import com.ftn.dostavaOSA.service.interfaces.KupacService;
+import com.ftn.dostavaOSA.service.interfaces.PorudzbinaService;
+import com.ftn.dostavaOSA.service.interfaces.ProdavacService;
 
 @Service
 public class PorudzbinaServiceImpl implements PorudzbinaService {
@@ -34,6 +49,12 @@ public class PorudzbinaServiceImpl implements PorudzbinaService {
 	
 	@Autowired
 	ArtikalService artikalService;
+	
+	@Autowired
+	PorudzbinaRepositoryES porudzbinaRepositoryES;
+	
+	@Autowired
+	ElasticsearchRestTemplate elasticsearchRestTemplate;
 
 	@Override
 	public List<Porudzbina> findAll() {
@@ -139,5 +160,53 @@ public class PorudzbinaServiceImpl implements PorudzbinaService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void index(PorudzbinaDTO porudzbinaDTO) {
+		porudzbinaRepositoryES.save(porudzbinaDTO);
+	}
+
+	@Override
+	public void deleteIndex(PorudzbinaDTO porudzbinaDTO) {
+		porudzbinaRepositoryES.delete(porudzbinaDTO);
+	}
+
+	@Override
+	public List<PorudzbinaDTO> filter(PorudzbinaFilterDTO filter) {
+		QueryBuilder prodavacIdQuery = SearchQueryGenerator.createMatchQueryBuilder(new SimpleQueryDTO("prodavacId",String.valueOf(filter.getProdavacId())));
+		
+		BoolQueryBuilder boolQueryFilter = QueryBuilders
+                .boolQuery()
+                .must(prodavacIdQuery);
+		
+		if (filter.getKomentar() != null) {
+			QueryBuilder komentarQuery = SearchQueryGenerator.createFuzzyQueryBuilder(new SimpleQueryDTO("komentar", filter.getKomentar()));
+			boolQueryFilter.must(komentarQuery);
+		}
+		
+		if (filter.getOcenaOd() != null && filter.getOcenaDo() != null) {
+			QueryBuilder ocenaQuery = SearchQueryGenerator.createRangeQueryBuilder(new SimpleQueryDTO("ocena", filter.getOcenaOd().toString() + "-" + filter.getOcenaDo().toString()));
+			boolQueryFilter.must(ocenaQuery);
+		}
+		
+		if (filter.getCenaOd() != null && filter.getCenaDo() != null) {
+			QueryBuilder ocenaQuery = SearchQueryGenerator.createRangeQueryBuilder(new SimpleQueryDTO("cena", filter.getCenaOd().toString() + "-" + filter.getCenaDo().toString()));
+			boolQueryFilter.must(ocenaQuery);
+		}
+
+		List<PorudzbinaDTO> filterList = new ArrayList<>();
+		for (SearchHit<PorudzbinaDTO> searchHit : searchByBoolQuery(boolQueryFilter)) {
+			filterList.add(searchHit.getContent());
+		}
+		return filterList;
+	}
+	
+	public SearchHits<PorudzbinaDTO> searchByBoolQuery(BoolQueryBuilder boolQueryBuilder) {
+		NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(boolQueryBuilder)
+                .build();
+
+        return elasticsearchRestTemplate.search(searchQuery, PorudzbinaDTO.class, IndexCoordinates.of("porudzbine"));
 	}
 }
