@@ -115,7 +115,7 @@ public class ArtikalController {
 		return new ResponseEntity<Artikal>(HttpStatus.NO_CONTENT);
 	}
 	
-	@PreAuthorize("hasAnyRole('KUPAC')")
+	@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@PostMapping("/filter")
 	public ResponseEntity<List<ArtikalDTO>> filter(@RequestBody ArtikalFilterDTO artikalFilterDTO){
 		return new ResponseEntity<>(artikalService.filter(artikalFilterDTO), HttpStatus.OK);

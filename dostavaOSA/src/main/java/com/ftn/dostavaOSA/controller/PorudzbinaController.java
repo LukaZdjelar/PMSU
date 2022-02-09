@@ -155,6 +155,7 @@ public class PorudzbinaController {
 				listDTO.add(new PorudzbinaDTO(porudzbina));
 			}
 		}
+		
 		return new ResponseEntity<>(listDTO, HttpStatus.OK);
 	}
 	
@@ -210,7 +211,7 @@ public class PorudzbinaController {
 		
 	}
 	
-	@PreAuthorize("hasAnyRole('KUPAC')")
+	@PreAuthorize("hasAnyRole('PRODAVAC', 'ADMINISTRATOR', 'KUPAC')")
 	@PostMapping("/filter")
 	public ResponseEntity<List<PorudzbinaDTO>> filter(@RequestBody PorudzbinaFilterDTO porudzbinaFilterDTO){
 		return new ResponseEntity<>(porudzbinaService.filter(porudzbinaFilterDTO), HttpStatus.OK);
@@ -219,7 +220,7 @@ public class PorudzbinaController {
 	@PostMapping("/es/indexsql")
 	public ResponseEntity<?> indexsql(){
 		for (Porudzbina porudzbina: porudzbinaService.findAll()) {
-			if (porudzbina.isDostavljeno()) {
+			if (porudzbina.isDostavljeno() && !porudzbina.isArhiviranikomentar()) {
 				porudzbinaService.index(new PorudzbinaDTO(porudzbina));
 			}
 		}
